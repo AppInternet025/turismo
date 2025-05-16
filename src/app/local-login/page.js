@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/localLogin", {
+      const res = await fetch("/api/local-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

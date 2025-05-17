@@ -15,22 +15,40 @@ export async function POST(request) {
     return NextResponse.json({ message: 'Datos inválidos' }, { status: 400 });
   }
 
-  try {
+  try { 
+    
     await connectToDatabase();
-
-    const updated = await Puntuacion.findOneAndUpdate(
-      { user: userId, location: locationId },
-      { score },
+    const rate = await Puntuacion.findOne({
+      user_id: userId, location_id: locationId
+    });
+    if (rate) {
+       const updated = await Puntuacion.findOneAndUpdate(
+      {
+         user_id: userId
+        location: locationId
+       },
+      { 
+        score: score
+      },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
+    return NextResponse.json({ message: 'Puntuación actualizada', puntuacion: updated }, { status: 200 });
+    } 
+    else { 
+      const newPuntuacion = new Puntuacion({ userId, locationId, score })
+      const savePuntuacion = await newPuntucion.save();
 
-    return NextResponse.json({ message: 'Puntuación registrada', puntuacion: updated }, { status: 200 });
+  return NextResponse.json({ message: 'Puntuación registrada', puntuacion: savePuntuacion }, { status: 200 });
+    }
+    
+
+   
   } catch (error) {
     return NextResponse.json({ message: 'Error al registrar puntuación', error: error.message }, { status: 500 });
   }
 }
 
-
+/*
 export async function DELETE(request) {
   const { userId, locationId } = await request.json();
 
@@ -48,3 +66,4 @@ export async function DELETE(request) {
     return NextResponse.json({ message: 'Error al eliminar puntuación', error: error.message }, { status: 500 });
   }
 }
+*/

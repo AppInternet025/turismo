@@ -1,4 +1,4 @@
-"use client"; // Asegura que el componente se maneje del lado del cliente
+"use client"; 
 
 import React, { useState } from "react";
 
@@ -95,7 +95,7 @@ const UploadForm = () => {
           accept="image/*"
           multiple
           onChange={handleFileChange}
-          className="mb-6 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+          className="mb-6 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border file:border-blue-500 file:rounded-lg file:bg-blue-500 file:text-white hover:file:bg-blue-600"
         />
       )}
       

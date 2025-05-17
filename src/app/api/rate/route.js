@@ -1,8 +1,8 @@
 
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
-import connectToDatabase from '@/utils/mongodb';
-import Puntuacion from '@/puntuacion/Puntuaciones';
+import {connectToDatabase} from '@/utils/mongodb';
+import Puntuacion from '@/models/Puntuacion';
 
 function isValidObjectId(id) {
   return mongoose.Types.ObjectId.isValid(id);
@@ -17,15 +17,15 @@ export async function POST(request) {
 
   try { 
     
-    await connectToDatabase();
+    connectToDatabase();
     const rate = await Puntuacion.findOne({
       user_id: userId, location_id: locationId
     });
     if (rate) {
        const updated = await Puntuacion.findOneAndUpdate(
       {
-         user_id: userId
-        location: locationId
+         user_id: userId,
+        location_id: locationId
        },
       { 
         score: score

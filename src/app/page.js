@@ -1,103 +1,58 @@
 import Image from "next/image";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    
+  function initMap() {
+
+      const centroChiloe = { lat: -42.6223, lng: -73.7500 };
+
+      
+      const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 10,
+          center: centroChiloe
+      });
+
+      const lugares = [
+          { lat: -42.6126, lng: -73.9790, title: 'Castro', descripcion: 'Capital de Chiloé, conocida por sus coloridas casas flotantes.' },
+          { lat: -42.6110, lng: -73.7340, title: 'Dalcahue', descripcion: 'Famoso por su iglesia y el mercado artesanal.' },
+          { lat: -42.4272, lng: -73.6531, title: 'Ancud', descripcion: 'Puerto histórico y uno de los primeros asentamientos en la isla.' },
+          { lat: -42.8694, lng: -73.9281, title: 'Puqueldón', descripcion: 'Un tranquilo pueblo rodeado de naturaleza y paisajes hermosos.' }
+      ];
+
+
+      const infoWindow = new google.maps.InfoWindow();
+
+
+      lugares.forEach(function(lugar) {
+          const marcador = new google.maps.Marker({
+              position: { lat: lugar.lat, lng: lugar.lng },
+              map: map,
+              title: lugar.title
+          });
+
+
+          marcador.addListener('click', function() {
+              infoWindow.setContent(`
+                  <h3>${lugar.title}</h3>
+                  <p>${lugar.descripcion}</p>
+              `);
+              infoWindow.open(map, marcador);
+          });
+      });
+  }
+
+
+  return (
+
+    <body>
+        <h1>Mapa de la Isla Grande de Chiloé, Chile</h1>
+        <div id="map"></div>
+    
+        <script src="https://maps.googleapis.com/maps/api/js?key=CLAVE_API&callback=initMap" 
+        async defer></script>
+    
+       
+    </body>
   );
 }

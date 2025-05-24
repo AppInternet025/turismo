@@ -25,7 +25,7 @@ export async function POST(request) {
        const updated = await Puntuacion.findOneAndUpdate(
       {
          user_id: userId
-        location: locationId
+        location_id: locationId
        },
       { 
         score: score
